@@ -3,11 +3,7 @@ import 'core-js/stable'; //polyfilling evertything else
 import 'regenerator-runtime/runtime'; //polyfilling async/await
 //console.log(icons);
 import recipeView from './views/recipeView.js';
-const recipeContainer = document.querySelector('.recipe');
-
-// https://forkify-api.herokuapp.com/v2
-
-///////////////////////////////////////
+import searchView from './views/searchView.js';
 
 const controlRecipes = async function () {
   try {
@@ -25,7 +21,21 @@ const controlRecipes = async function () {
     //err->this is not needed in the UI
   }
 };
+
+const controlSearchResults = async function () {
+  try {
+    const query = searchView.getQuery();
+    if (!query) return;
+    console.log(query);
+    await model.loadSearchResults(query);
+    console.log(model.state.search.results);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchResults);
 };
 init();
