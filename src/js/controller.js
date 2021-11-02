@@ -5,6 +5,7 @@ import 'regenerator-runtime/runtime'; //polyfilling async/await
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 //from parcel, hot module reload
 if (module.hot) {
@@ -40,7 +41,10 @@ const controlSearchResults = async function () {
     //3. render search results
     //console.log(model.state.search.results);
     //resultsView.render(model.state.search.results);//all results at once
-    resultsView.render(model.getSearchResultsPage());
+    resultsView.render(model.getSearchResultsPage(6));
+
+    //4) REnder initial pagination buttons
+    paginationView.render(model.state.search);
   } catch (err) {
     console.error(err);
   }
