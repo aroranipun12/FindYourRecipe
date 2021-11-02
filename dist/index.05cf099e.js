@@ -475,7 +475,7 @@ if (module.hot) module.hot.accept();
 const controlRecipes = async function() {
     try {
         const id = window.location.hash.slice(1);
-        console.log(id);
+        //console.log(id);
         if (!id) return; //guard clause
         _recipeViewJsDefault.default.renderSpinner();
         // 1. Loading the Recipe
@@ -498,7 +498,8 @@ const controlSearchResults = async function() {
         await _modelJs.loadSearchResults(query);
         //3. render search results
         //console.log(model.state.search.results);
-        _resultsViewJsDefault.default.render(_modelJs.state.search.results);
+        //resultsView.render(model.state.search.results);//all results at once
+        _resultsViewJsDefault.default.render(_modelJs.getSearchResultsPage());
     } catch (err) {
         console.error(err);
     }
@@ -518,6 +519,8 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe
 );
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults
 );
+parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage
+);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
@@ -526,7 +529,9 @@ const state = {
     },
     search: {
         query: '',
-        results: []
+        results: [],
+        resultsPerPage: _configJs.RESULTSPERPAGE,
+        page: 1
     }
 };
 const loadRecipe = async function(id) {
@@ -564,6 +569,12 @@ const loadSearchResults = async function(query) {
     } catch (err) {
         throw err;
     }
+};
+const getSearchResultsPage = function(page = state.search.page) {
+    state.search.page = page;
+    const start = (page - 1) * state.search.resultsPerPage;
+    const end = page * state.search.resultsPerPage;
+    return state.search.results.slice(start, end);
 };
 
 },{"regenerator-runtime":"1EBPE","./config.js":"6V52N","./helpers.js":"9RX9R","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"1EBPE":[function(require,module,exports) {
@@ -1153,8 +1164,11 @@ parcelHelpers.export(exports, "API_URL", ()=>API_URL
 );
 parcelHelpers.export(exports, "TIMEOUT", ()=>TIMEOUT
 );
+parcelHelpers.export(exports, "RESULTSPERPAGE", ()=>RESULTSPERPAGE
+);
 const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes/';
 const TIMEOUT = 10;
+const RESULTSPERPAGE = 10;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV"}],"ciiiV":[function(require,module,exports) {
 exports.interopDefault = function(a) {
