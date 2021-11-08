@@ -18,8 +18,9 @@ class RecipeView extends View {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
       if (!btn) return;
-      const updateTo = +btn.dataset.updateTo; //converting to a number using +
-      handler(updateTo);
+      //const updateTo = +btn.dataset.updateTo; //converting to a number using +
+      const { updateTo } = btn.dataset;
+      if (+updateTo > 0) handler(+updateTo);
       //console.log('tiny button pressed!');
     });
   }
