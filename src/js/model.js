@@ -47,6 +47,8 @@ export const loadSearchResults = async function (query) {
         publisher: rec.publisher,
       };
     });
+    //resetting the page no for another search
+    state.search.page = 1;
   } catch (err) {
     throw err;
   }
