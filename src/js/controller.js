@@ -19,6 +19,8 @@ const controlRecipes = async function () {
     if (!id) return; //guard clause
     recipeView.renderSpinner();
 
+    // 0. update result view to mark selected search results
+    resultsView.update(model.getSearchResultsPage());
     // 1. Loading the Recipe
     await model.loadRecipe(id);
     //2. Rendering the Recipe
@@ -70,7 +72,9 @@ const controlServings = function (newServings) {
   //update the recipe servings (in state)
   model.updateServings(newServings);
   //update the recipe view
-  recipeView.render(model.state.recipe); //jugaad -> basically you're rerendering the whole recipe just to update the servings.
+  //recipeView.render(model.state.recipe); //jugaad -> basically you're rerendering the whole recipe just to update the servings.
+  //only changing where data has changed (not rendering the whole thing)
+  recipeView.update(model.state.recipe);
 };
 
 const init = function () {
