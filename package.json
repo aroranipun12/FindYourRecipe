@@ -1,11 +1,11 @@
 {
   "name": "forkify",
   "version": "1.0.0",
-  "description": "Recipe Finder",
-  "main": "index.js",
+  "description": "FindYourRecipe",
+  "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "Nipun Arora",
   "license": "ISC",
